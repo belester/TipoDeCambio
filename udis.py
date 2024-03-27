@@ -157,8 +157,13 @@ def UDIS_P():
     cursor = conn.cursor()
     # Insertar registros
     for fecha, udis in zip(fecha, udis):
-        cursor.execute("INSERT INTO C0001 VALUES(?,3,?,null)",
-                       datetime.strptime(fecha, "%d/%m/%Y"), udis)
+        try:
+    cursor.execute("INSERT INTO C0001 VALUES(?,3,?,null)", (fecha, udis))
+    conn.commit()
+except pyodbc.IntegrityError:
+    print("Un registro con la misma fecha e id_moneda ya existe. Actualizando...")
+    cursor.execute("UPDATE C0001 SET Valor = ? WHERE Fecha = ? AND id_moneda = 3", (udis, fecha))
+    conn.commit()
 
 
     # Elimina los archivos excel
