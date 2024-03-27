@@ -2,7 +2,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-from seleniumbase import Driver
+from selenium import webdriver
 from tabulate import tabulate
 from datetime import datetime
 from datetime import datetime, timedelta
@@ -76,7 +76,11 @@ def UDIS_P():
         # No se encontró una fecha en la base de datos, comenzar desde el primer día del mes actual
         fecha_inicio = fecha_actual.replace(day=1).date()
     #----------------------
-    driver = Driver(uc=True)
+    
+    options = webdriver.ChromeOptions()
+    driver = webdriver.Chrome(options=options)
+    
+    #driver = Driver(uc=True)
 
     UDIS = "https://www.banxico.org.mx/SieInternet/consultarDirectorioInternetAction.do?accion=consultarCuadro&idCuadro=CP150&locale=es"
 
