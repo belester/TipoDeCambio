@@ -122,8 +122,13 @@ def dolar(fecha_Actual, fecha_Inicio):
     cursor = conn.cursor()
     # Insertar registros
     for fecha, dolaArray in zip(fecha, dolaArray):
-        cursor.execute("INSERT INTO C0001 VALUES(?,2,?,null)",
-                        datetime.strptime(fecha, "%d/%m/%Y"), dolaArray)
+        try:
+          cursor.execute("INSERT INTO C0001 VALUES(?,2,?,null)", (fecha, dolaArray))
+          conn.commit()
+         except pyodbc.IntegrityError:
+          print("Un registro con la misma fecha e id_moneda ya existe.")
+            cursor.execute("UPDATE C0001 SET Valor = ? WHERE Fecha = ? AND id_moneda = 2", (dolaArray, fecha))
+             conn.commit()
 
     #Elimina los archivos excel
     if path.exists("downloaded_files/tipoCambio.xls"):
