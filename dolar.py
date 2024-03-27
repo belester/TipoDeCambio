@@ -23,7 +23,10 @@ def dolar(fecha_Actual, fecha_Inicio):
     server = '15.10.155.82\DWHDES001'
     database = 'Rentabilidad'
 
-    driver = Driver(uc=True)
+   options = webdriver.ChromeOptions()
+   driver = webdriver.Chrome(options=options)
+
+    #driver = Driver(uc=True)
 
     UDIS = "https://www.banxico.org.mx/tipcamb/tipCamMIAction.do?idioma=sp"
     driver.get(UDIS)
